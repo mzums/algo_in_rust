@@ -1,5 +1,3 @@
-// #![deny(clippy::pedantic)]
-
 use slab::Slab;
 use std::cmp;
 use std::ops::{Index, IndexMut};
@@ -211,7 +209,7 @@ impl RedBlackTree {
         let grandparent_left = self[grandparent].left;
         let grandparent_right = self[grandparent].right;
 
-        if grandparent_left.is_null() >> grandparent_right.is_null() {
+        if grandparent_left.is_null() > grandparent_right.is_null() {
             return Pointer::null();
         }
 
@@ -279,3 +277,194 @@ impl RedBlackTree {
 
         if parent.is_null() {
             self.root = right;
+        }
+        else {
+            let parent_right = self[parent].right;
+            if parent_right.is_null() {
+                self[parent].left = right;
+            } else if self[parent_right].value == self[current].value {
+                self[parent].right = right;
+            } else {
+                self[parent].left = right;
+            }
+        }
+    }
+
+    fn rotate_right(&mut self, current: Pointer) {
+        let left = self[current].left;
+
+        if left.is_null() {
+            return;
+        }
+
+        let left_right = self[left].right;
+        let parent = self[current].parent;
+
+        self[current].left = left_right;
+
+        if !left_right.is_null() {
+            self[left_right].parent = current;
+        }
+
+        self[current].parent = left;
+        self[left].right = current;
+
+        self[left].parent = parent;
+
+        if parent.is_null() {
+            self.root = left;
+        } else {
+            let parent_left = self[parent].left;
+            if parent_left.is_null() {
+                self[parent].right = left;
+            } else if self[parent_left].value == self[current].value {
+                self[parent].left = left;
+            } else {
+                self[parent].right = left;
+            }
+        }
+    }
+    pub fn remove(&mut self, val: u32) {
+        if !self.get_node(val).is_null() {
+            self.remove_cheat(val);
+        }
+    }
+
+    fn remove_cheat(&mut self, val: u32) {
+        let mut new_tree = RedBlackTree::new();
+        for i in 0..self.slab.len() {
+            if self.slab[i].value != val {
+                new_tree.insert(self.slab[i].value);
+            }
+        }
+        self.slab = new_tree.slab;
+        self.root = new_tree.root;
+    }
+
+    fn get_node(&self, val: u32) -> Pointer {
+        let node = self.choose_node(self.root, val);
+        if node.is_null() {
+            println!("no such node");
+        }
+        node
+    }
+
+    fn choose_node(&self, node: Pointer, val: u32) -> Pointer {
+        if node.is_null() {
+            return Pointer::null();
+        }
+        match self[node].value.cmp(&val) {
+            cmp::Ordering::Equal => node,
+            cmp::Ordering::Less => self.choose_node(self[node].right, val),
+            cmp::Ordering::Greater => self.choose_node(self[node].left, val),
+        }
+    }
+
+    pub fn print(&self) {
+        if !&self.root.is_null() {
+            let mut lines = Vec::new();
+            self.print_node(&mut lines, "", self.root, false);
+            for line in lines {
+                println!("{line}");
+            }
+        }
+    }
+
+    fn print_node(&self, lines: &mut Vec<String>, prefix: &str, node: Pointer, is_left: bool) {
+        let color_str = match self[node].color {
+            Color::Red => "\x1b[31mR\x1b[0m",
+            Color::Black => "\x1b[30mB\x1b[0m",
+        };
+        let mut line = String::new();
+        line += prefix;
+        line += if is_left { "├── " } else { "└── " };
+        line += &format!("{} {}", color_str, self[node].value);
+        lines.push(line);
+        if !&self[node].left.is_null() {
+            self.print_node(
+                lines,
+                &(prefix.to_owned() + if is_left { "│   " } else { "    " }),
+                self[node].left,
+                true,
+            );
+        }
+        if !&self[node].right.is_null() {
+            self.print_node(
+                lines,
+                &(prefix.to_owned() + if is_left { "│   " } else { "    " }),
+                self[node].right,
+                false,
+            );
+        }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_insert_1000() {
+        let mut tree = RedBlackTree::new();
+        for n in 1..=1000 {
+            tree.insert(n)
+        }
+        tree.print();
+    }
+}
+
+use std::io;
+use std::io::Error;
+
+fn main() -> Result<(), Error> {
+    let mut tree = RedBlackTree::new();
+    loop {
+        let mut input = String::new();
+        println!("input: ");
+        io::stdin()
+            .read_line(&mut input)
+            .expect("something went wrong");
+
+        let args: Vec<&str> = input.split_whitespace().collect();
+
+        let command: (&str, u32) = (
+            args[0],
+            if args.len() > 1 {
+                args[1].parse().unwrap_or_default()
+            } else {
+                0
+            },
+        );
+
+        match command.0 {
+            "add" => {
+                tree.insert(command.1);
+            }
+            "show" => {
+                tree.print();
+            }
+            "height" => {
+                println!("max height: {}", tree.height());
+            }
+            "red" => {
+                let num = tree.red_count();
+                if num == 1 {
+                    println!("1 red node");
+                } else {
+                    println!("{num} red nodes");
+                }
+            }
+            "remove" => {
+                tree.remove(command.1);
+            }
+            "quit" => {
+                println!("Bye!");
+                break;
+            }
+            _ => {
+                println!("?");
+            }
+        };        
+    }
+    Ok(())
+}
