@@ -7,19 +7,23 @@ Various algorithms written in Rust. Useful when learning competitive programming
 - ### **Red Black Tree**
     It's a **self-balancing binary search tree** where each node has an additional color property (red or black) to ensure that the tree remains balanced during insertions and deletions. Its key properties include: every path from the root to a null pointer has the same number of black nodes, and no two consecutive red nodes can exist, guaranteeing O(log⁡n) time for search, insertion, and deletion operations.
 
-## Usage
-- add a node  
-    ```add <num>```
-- remove a node  
-    ```remove <num>```
-- display tree   
-    ```show```
-- print height of the tree  
-    ```height```
-- print number of red nodes  
-    ```red```
-- quit program  
-    ```quit```
+    ## Usage
+    - add a node  
+        ```add <num>```
+    - remove a node  
+        ```remove <num>```
+    - display tree   
+        ```show```
+    - print height of the tree  
+        ```height```
+    - print number of red nodes  
+        ```red```
+    - quit program  
+        ```quit```
+- ### **LCA**
+    The Lowest Common Ancestor (LCA) algorithm is used to find the lowest (or deepest) node that is **an ancestor of two given nodes** in a tree. It has applications in various areas like network routing, file systems, and genealogy trees. Efficient LCA solutions often involve preprocessing the tree with techniques like binary lifting or sparse tables, allowing LCA queries to be answered in O(log⁡N) or O(1) time after O(Nlog⁡N) preprocessing.
+- ### **Segment tree**
+    A Segment Tree is a data structure used to **efficiently perform range queries and updates on an array**. It divides the array into segments and represents them in a binary tree format. Each node stores information about a segment of the array, such as its sum, minimum, or maximum. With a segment tree, operations like range queries and updates can be performed in O(log⁡N) time, making it suitable for scenarios where frequent updates and queries are required.
 
 ## Wanna help Ferris learn Algo?
 *Ferris smiles encouragingly*
