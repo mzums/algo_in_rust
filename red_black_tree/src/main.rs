@@ -436,6 +436,12 @@ fn main() -> Result<(), Error> {
             },
         );
 
+        println!("add <num>");
+        println!("remove <num>");
+        println!("show");
+        println!("red");
+        println!("quit");
+
         match command.0 {
             "add" => {
                 tree.insert(command.1);
