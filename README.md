@@ -35,7 +35,9 @@ Various algorithms written in Rust. Useful when learning competitive programming
 - ### **Hashing**  
     Hashing is a **technique to map data elements to a fixed-size value or index using a hash function**. It is widely used in hash tables for quick data retrieval, with average-case operations like search, insert, and delete taking O(1) time.  
 - ### **KMP (Knuth-Morris-Pratt)**  
-    The KMP algorithm is a **string matching algorithm that finds occurrences of a pattern in a text** efficiently by preprocessing the pattern into a prefix table. This allows skipping unnecessary comparisons, achieving a time complexity of O(n + m), where n is the text length and m is the pattern length.  
+    The KMP algorithm is a **string matching algorithm that finds occurrences of a pattern in a text** efficiently by preprocessing the pattern into a prefix table. This allows skipping unnecessary comparisons, achieving a time complexity of O(n + m), where n is the text length and m is the pattern length.
+- ### **Manacher's Algorithm**  
+    Manacher's algorithm is a **linear-time algorithm used to find the longest palindromic substring** in a given string. By preprocessing the string with separators and using a dynamic expansion technique, it avoids redundant comparisons, achieving an optimal time complexity of O(n).  
 
 ## Wanna help Ferris learn Algo?
 *Ferris smiles encouragingly*
