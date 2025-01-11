@@ -28,6 +28,14 @@ Various algorithms written in Rust. Useful when learning competitive programming
     MergeSort is a **divide-and-conquer sorting algorithm that recursively splits the array into smaller subarrays** until each contains one element, then merges them back together in sorted order. It is stable, efficient for large datasets, and has a time complexity of O(nlog⁡n).
 - ### QuickSort**
     QuickSort is a **divide-and-conquer sorting algorithm that selects a pivot element, partitions the array into two subarrays** (elements less than the pivot and elements greater than the pivot), and recursively sorts them. It is efficient with an average time complexity of O(nlog⁡n), but its worst-case complexity is O(n^2) if the pivot is poorly chosen.
+- ### **Centroid Decomposition**  
+    Centroid Decomposition is a **tree decomposition technique that divides a tree into smaller subtrees** by recursively removing centroid nodes. It is commonly used in problems involving path queries and updates, as it simplifies tree traversal and enables divide-and-conquer strategies.  
+- ### **Dijkstra**  
+    Dijkstra's algorithm is used to **find the shortest paths from a single source vertex to all other vertices** in a weighted graph with non-negative edge weights. It relies on a priority queue to iteratively update the shortest distances, ensuring an efficient time complexity of O((V + E) log V) for sparse graphs.  
+- ### **Hashing**  
+    Hashing is a **technique to map data elements to a fixed-size value or index using a hash function**. It is widely used in hash tables for quick data retrieval, with average-case operations like search, insert, and delete taking O(1) time.  
+- ### **KMP (Knuth-Morris-Pratt)**  
+    The KMP algorithm is a **string matching algorithm that finds occurrences of a pattern in a text** efficiently by preprocessing the pattern into a prefix table. This allows skipping unnecessary comparisons, achieving a time complexity of O(n + m), where n is the text length and m is the pattern length.  
 
 ## Wanna help Ferris learn Algo?
 *Ferris smiles encouragingly*
